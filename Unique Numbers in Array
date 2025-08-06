@@ -1,0 +1,23 @@
+import java.util.*;
+
+public class UniqueNumbers {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter how many numbers: ");
+        int x = sc.nextInt();
+        int[] arr = new int[x];
+
+        System.out.println("Enter the numbers:");
+        for (int i = 0; i < x; i++) arr[i] = sc.nextInt();
+
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int n : arr) map.put(n, map.getOrDefault(n, 0) + 1);
+
+        List<Integer> unique = new ArrayList<>();
+        for (int key : map.keySet())
+            if (map.get(key) == 1) unique.add(key);
+
+        System.out.println("Count = " + unique.size());
+        System.out.println("Unique numbers are = " + unique);
+    }
+}
