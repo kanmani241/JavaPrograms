@@ -1,0 +1,50 @@
+import java.util.Scanner;
+
+class CashTree {
+    double balance;
+    double withdraw(double amt) { return balance -= amt; }
+    double deposit(double amt) { return balance += amt; }
+    void viewBalance() { System.out.println("Balance: " + balance); }
+}
+
+class SBI_Bank extends CashTree {
+    double withdraw(double amt) {
+        return super.withdraw(amt + 5); 
+    }
+    double deposit(double amt) {
+        return super.deposit(amt + amt * 0.06); 
+    }
+}
+
+class HDFC_Bank extends CashTree {
+    double withdraw(double amt) {
+        return super.withdraw(amt + 10); 
+    }
+    double deposit(double amt) {
+        return super.deposit(amt + amt * 0.05); 
+    }
+}
+
+public class BankATM {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        CashTree bank;
+        System.out.println("Choose Bank: 1. SBI  2. HDFC");
+        int ch = sc.nextInt();
+        bank = (ch == 1) ? new SBI_Bank() : new HDFC_Bank();
+        bank.balance = 10000; // initial balance
+
+        while (true) {
+            System.out.println("\n1.View 2.Withdraw 3.Deposit 4.Exit");
+            int op = sc.nextInt();
+            if (op == 4) break;
+            switch (op) {
+                case 1: bank.viewBalance(); break;
+                case 2: System.out.print("Enter amount: ");
+                        bank.withdraw(sc.nextDouble()); break;
+                case 3: System.out.print("Enter amount: ");
+                        bank.deposit(sc.nextDouble()); break;
+            }
+        }
+    }
+}
