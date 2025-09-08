@@ -1,0 +1,46 @@
+package program;
+
+import java.util.Scanner;
+
+public class TextAnalysis {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+  
+        System.out.println("Enter a paragraph (type 'END' on a new line to finish):");
+        StringBuilder paragraph = new StringBuilder();
+        while (true) {
+            String line = sc.nextLine();
+            if (line.equalsIgnoreCase("END")) {
+                break;
+            }
+            paragraph.append(line).append("\n");
+        }
+
+        String text = paragraph.toString();
+
+  
+        int charCount = text.length();
+
+        int spaceCount = 0;
+        for (char c : text.toCharArray()) {
+            if (c == ' ') {
+                spaceCount++;
+            }
+        }
+
+        String[] words = text.trim().split("\\s+");
+        int wordCount = words.length;
+
+      
+        String[] lines = text.split("\n");
+        int lineCount = lines.length;
+
+        System.out.println("Total Characters: " + charCount);
+        System.out.println("Total Spaces: " + spaceCount);
+        System.out.println("Total Words: " + wordCount);
+        System.out.println("Total Lines: " + lineCount);
+
+        sc.close();
+    }
+}
