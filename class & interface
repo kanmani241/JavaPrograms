@@ -1,0 +1,98 @@
+package bankdemo;
+import java.util.Scanner;
+
+abstract class Device {
+    int deviceId;
+    String brand;
+    double price;
+
+    Device(int deviceId, String brand, double price) {
+        this.deviceId = deviceId;
+        this.brand = brand;
+        this.price = price;
+    }
+
+    abstract void displayDetails();
+}
+
+interface Discountable {
+    void applyDiscount(double percentage);
+    double finalPrice();
+}
+
+class Smartphone extends Device implements Discountable {
+    Smartphone(int deviceId, String brand, double price) {
+        super(deviceId, brand, price);
+    }
+
+    @Override
+    public void applyDiscount(double percentage) {
+        price = price - (price * percentage / 100);
+    }
+
+    @Override
+    public double finalPrice() {
+        return price;
+    }
+
+    @Override
+    void displayDetails() {
+        System.out.println("DeviceID: " + deviceId);
+        System.out.println("Brand: " + brand);
+        System.out.println("Price after discount: " + price);
+    }
+}
+
+public class SmartDeviceStore {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Smartphone smartphone = null;
+
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Add Smartphone");
+            System.out.println("2. Apply Discount");
+            System.out.println("3. View Device Details");
+            System.out.println("4. Exit");
+            System.out.print("Enter option: ");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Device ID: ");
+                    int id = sc.nextInt();
+                    sc.nextLine(); // Consume newline
+                    System.out.print("Enter Brand: ");
+                    String brand = sc.nextLine();
+                    System.out.print("Enter Price: ");
+                    double price = sc.nextDouble();
+                    smartphone = new Smartphone(id, brand, price);
+                    System.out.println("Smartphone added.");
+                    break;
+                case 2:
+                    if (smartphone == null) {
+                        System.out.println("Add a smartphone first!");
+                    } else {
+                        System.out.print("Enter Discount Percentage: ");
+                        double percent = sc.nextDouble();
+                        smartphone.applyDiscount(percent);
+                        System.out.println("Discount applied.");
+                    }
+                    break;
+                case 3:
+                    if (smartphone == null) {
+                        System.out.println("No smartphone added yet.");
+                    } else {
+                        smartphone.displayDetails();
+                    }
+                    break;
+                case 4:
+                    System.out.println("Exiting program.");
+                    sc.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+    }
+}
