@@ -1,0 +1,159 @@
+##01
+import java.util.Scanner;
+
+class WordThread implements Runnable {
+    private String text;
+
+    WordThread(String text) {
+        this.text = text;
+    }
+
+    @Override
+    public void run() {
+        String[] words = text.split("\\s+");
+        for (String w : words) {
+            System.out.println("Word: " + w);
+            try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+        }
+    }
+}
+
+class VowelThread implements Runnable {
+    private String text;
+
+    VowelThread(String text) {
+        this.text = text;
+    }
+
+    @Override
+    public void run() {
+        for (char c : text.toCharArray()) {
+            if ("AEIOUaeiou".indexOf(c) != -1) {
+                System.out.println("Vowel: " + c);
+                try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+            }
+        }
+    }
+}
+
+public class Question1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter a paragraph:");
+        String text = sc.nextLine();
+
+        Thread t1 = new Thread(new WordThread(text));
+        Thread t2 = new Thread(new VowelThread(text));
+
+        t1.start();
+        t2.start();
+    }
+}
+
+#02
+
+import java.util.Scanner;
+
+class EvenThread extends Thread {
+    private int[] arr;
+
+    EvenThread(int[] arr) {
+        this.arr = arr;
+    }
+
+    public void run() {
+        for (int n : arr) {
+            if (n % 2 == 0) {
+                System.out.println("Even: " + n);
+                try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+            }
+        }
+    }
+}
+
+class OddThread extends Thread {
+    private int[] arr;
+
+    OddThread(int[] arr) {
+        this.arr = arr;
+    }
+
+    public void run() {
+        for (int n : arr) {
+            if (n % 2 != 0) {
+                System.out.println("Odd: " + n);
+                try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+            }
+        }
+    }
+}
+
+public class Question2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int[] arr = new int[10];
+        System.out.println("Enter 10 numbers:");
+        for (int i = 0; i < 10; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        EvenThread even = new EvenThread(arr);
+        OddThread odd = new OddThread(arr);
+
+        even.start();
+        odd.start();
+    }
+}
+##03
+
+
+import java.util.Scanner;
+
+class TableThread extends Thread {
+    private int num;
+
+    TableThread(int num) {
+        this.num = num;
+    }
+
+    public void run() {
+        for (int i = 1; i <= 10; i++) {
+            System.out.println(num + " x " + i + " = " + (num * i));
+            try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+        }
+    }
+}
+
+class DivisorThread extends Thread {
+    private int num;
+
+    DivisorThread(int num) {
+        this.num = num;
+    }
+
+    public void run() {
+        System.out.println("Divisors of " + num + ":");
+        for (int i = 1; i <= num; i++) {
+            if (num % i == 0) {
+                System.out.println(i);
+                try { Thread.sleep(2000); } catch (InterruptedException e) { e.printStackTrace(); }
+            }
+        }
+    }
+}
+
+public class Question3 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a number: ");
+        int num = sc.nextInt();
+
+        TableThread t1 = new TableThread(num);
+        DivisorThread t2 = new DivisorThread(num);
+
+        t1.start();
+        t2.start();
+    }
+}
+
+
